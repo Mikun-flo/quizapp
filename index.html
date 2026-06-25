@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Quiz App</title>
+    <!-- Google Fonts: Rubik -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background patterns for decoration -->
+    <div class="bg-pattern bg-pattern-top-left" aria-hidden="true"></div>
+    <div class="bg-pattern bg-pattern-bottom-right" aria-hidden="true"></div>
+
+    <!-- Main Application Wrapper -->
+    <div class="app-container">
+        <a href="#main-content" class="skip-link">Skip to content</a>
+        <!-- Header -->
+        <header class="app-header">
+            <div id="active-subject-header" class="active-subject" aria-live="polite">
+                <!-- Rendered when a quiz starts -->
+            </div>
+            <!-- Theme Switcher  -->
+            <div class="theme-toggle-container">
+                <!-- Sun Icon -->
+                <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path
+                        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+                    </path>
+                </svg>
+                   <label class="switch" for="theme-toggle">
+          <input type="checkbox" id="theme-toggle" aria-label="Toggle dark theme">
+          <span class="slider round"></span>
+        </label>
+        <!-- Moon Icon -->
+        <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+      </div>
+    </header>
+    <!-- Main Content Area -->
+    <main id="main-content" class="main-content">
+      <!--  Views Container -->
+      <div id="view-container">
+        <!-- Views will be added here by app.js -->
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading Quiz Subjects, here we go..</p>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
