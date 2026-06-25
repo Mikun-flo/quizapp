@@ -141,9 +141,7 @@ body {
   justify-content: flex-start;
   z-index: 1;
 }
-/* ==========================================================================
-   HEADER & THEME TOGGLE
-   ========================================================================== */
+/* HEADER & THEME TOGGLE */
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -205,3 +203,230 @@ body {
   transition: .4s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+input:checked + .slider::before {
+  transform: translateX(20px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round::before {
+  border-radius: 50%;
+}
+input:focus-visible + .slider {
+  outline: 3px solid var(--color-purple);
+  outline-offset: 4px;
+}
+input:checked + .slider::before {
+  transform: translateX(20px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round::before {
+  border-radius: 50%;
+}
+input:focus-visible + .slider {
+  outline: 3px solid var(--color-purple);
+  outline-offset: 4px;
+}
+
+/* Layout and Grid Sections */
+.main-content {
+  flex-grow: 1;
+}
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  animation: fadeIn 0.4s var(--transition-easing);
+}
+@media (min-width: 900px) {
+  .grid-layout {
+    grid-template-columns: 1fr 1.1fr;
+    gap: 80px;
+    align-items: start;
+  }
+}
+/* Intro/Welcome View Font */
+.intro-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.intro-title {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  font-weight: 300;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+@media (min-width: 768px) {
+  .intro-title {
+    font-size: 3.5rem;
+  }
+}
+.intro-title span {
+  display: block;
+  font-weight: 700;
+}
+.intro-subtitle {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+@media (min-width: 768px) {
+  .intro-subtitle {
+    font-size: 1.1rem;
+  }
+}
+/* Options column list */
+.list-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* CARDS & BUTTONS (THE HEART OF THE UI) */
+.card-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: var(--card-bg);
+  border: 3px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--border-radius-lg);
+  padding: 16px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: transform var(--transition-speed) var(--transition-easing),
+              box-shadow var(--transition-speed) var(--transition-easing),
+              border-color var(--transition-speed) var(--transition-easing),
+              background-color var(--transition-speed) var(--transition-easing);
+  position: relative;
+  overflow: hidden;
+}
+.card-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-hover-shadow);
+}
+.card-item:focus-visible {
+  outline: 3px solid var(--color-purple);
+  outline-offset: 4px;
+}
+/* Card Icons */
+.icon-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color var(--transition-speed) var(--transition-easing);
+}
+.icon-badge svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Subject specific theme app for icon bckgrds */
+.icon-badge.history {
+  background-color: var(--color-history-bg-light);
+  color: var(--color-history);
+}
+html[data-theme="dark"] .icon-badge.history {
+  background-color: var(--color-history-bg-dark);
+}
+.icon-badge.science {
+  background-color: var(--color-science-bg-light);
+  color: var(--color-science);
+}
+html[data-theme="dark"] .icon-badge.science {
+  background-color: var(--color-science-bg-dark);
+}
+.icon-badge.geography {
+  background-color: var(--color-geography-bg-light);
+  color: var(--color-geography);
+}
+html[data-theme="dark"] .icon-badge.geography {
+  background-color: var(--color-geography-bg-dark);
+}
+.icon-badge.literature {
+  background-color: var(--color-literature-bg-light);
+  color: var(--color-literature);
+}
+html[data-theme="dark"] .icon-badge.literature {
+  background-color: var(--color-literature-bg-dark);
+}
+
+/* Quiz Appearance Styles */
+.question-progress-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.question-counter {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+  .question-counter {
+    font-size: 1.1rem;
+  }
+}
+.question-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-primary);
+  margin-bottom: 32px;
+}
+@media (min-width: 768px) {
+  .question-text {
+    font-size: 2rem;
+  }
+}
+/* Custom Progress Bar */
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: var(--card-bg);
+  border-radius: 4px;
+  padding: 2px;
+  margin-top: auto;
+  margin-bottom: 32px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: var(--color-purple);
+  border-radius: 2px;
+  transition: width 0.4s var(--transition-easing);
+}
+/* Quiz Option Card Letter badge */
+.option-letter {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius);
+  background-color: var(--option-badge-bg);
+  color: var(--option-badge-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: background-color var(--transition-speed) var(--transition-easing),
+              color var(--transition-speed) var(--transition-easing);
+}
+ 
