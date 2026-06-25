@@ -1,0 +1,32 @@
+:root {
+  /* Common Brand Colors */
+  --color-purple: hsl(277, 91%, 56%);
+  --color-purple-hover: hsl(277, 91%, 65%);
+  --color-purple-light: hsl(277, 100%, 95%);
+  --color-green: hsl(151, 40%, 52%);
+  --color-green-light: hsl(151, 80%, 95%);
+  --color-red: hsl(0, 82%, 63%);
+  --color-red-light: hsl(0, 100%, 96%);
+
+  /* Subject Icon Colors */
+  --color-history: hsl(22, 100%, 60%);
+  --color-history-bg-light: hsl(22, 100%, 96%);
+  --color-history-bg-dark: hsla(22, 100%, 60%, 0.15);
+  
+  --color-science: hsl(151, 55%, 45%);
+  --color-science-bg-light: hsl(151, 100%, 96%);
+  --color-science-bg-dark: hsla(151, 55%, 45%, 0.15);
+  --color-geography: hsl(210, 100%, 50%);
+  --color-geography-bg-light: hsl(210, 100%, 96%);
+  --color-geography-bg-dark: hsla(210, 100%, 50%, 0.15);
+  --color-literature: hsl(290, 70%, 50%);
+  --color-literature-bg-light: hsl(290, 100%, 96%);
+  --color-literature-bg-dark: hsla(290, 70%, 50%, 0.15);
+
+  /* Layout and Spacing */
+  --max-width: 1160px;
+  --border-radius: 12px;
+  --border-radius-lg: 24px;
+  --transition-speed: 0.25s;
+  --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
