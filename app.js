@@ -1,3 +1,5 @@
+import questions from './questions.js';
+
 const FALLBACK_QUIZ_DATA = {
  "quizzes": [
     {
@@ -323,4 +325,205 @@ class QuizApp {
       this.renderHomeView();
     }
 }
+ /* VIEWS RENDERING METHODS */
+  
+  /* Reset header category indicator */
+  updateHeaderSubjectBadge() {
+    if (!this.currentSubject) {
+      this.activeSubjectHeader.innerHTML = '';
+      return;
+    }
+    
+    this.activeSubjectHeader.innerHTML = `
+      <div class="icon-badge ${this.currentSubject.icon}">
+        ${SVGIcons[this.currentSubject.icon]}
+      </div>
+      <span>${this.currentSubject.title}</span>
+    `;
+  }
+  /* Render view: Home page (Subject Selection) */
+  renderHomeView() {
+    this.currentSubject = null;
+    this.currentQuestionIndex = 0;
+    this.selectedAnswer = null;
+    this.isAnswerSubmitted = false;
+    this.score = 0;
+    this.updateHeaderSubjectBadge();
+    const subjectButtonsHTML = this.quizzes.map((quiz, index) => {
+      return `
+        <button class="card-item subject-btn" data-index="${index}" type="button">
+          <div class="icon-badge ${quiz.icon}">
+            ${SVGIcons[quiz.icon]}
+          </div>
+          <span>${quiz.title}</span>
+        </button>
+      `;
+    }).join('');
+    this.viewContainer.innerHTML = `
+      <div class="grid-layout">
+        <div class="intro-column">
+          <h1 class="intro-title">Welcome to the <br><span>Frontend Quiz!</span></h1>
+          <p class="intro-subtitle">Pick a subject to get started.</p>
+        </div>
+        <div class="list-column" role="group" aria-label="Quiz subjects selection">
+          ${subjectButtonsHTML}
+        </div>
+      </div>
+    `;
+    // Attach click events to subject selectors
+    this.viewContainer.querySelectorAll('.subject-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const quizIdx = parseInt(e.currentTarget.getAttribute('data-index'));
+        this.startQuiz(this.quizzes[quizIdx]);
+      });
+    });
+  }
+  /* Start Quiz action */
+  startQuiz(subject) {
+    this.currentSubject = subject;
+    this.currentQuestionIndex = 0;
+    this.score = 0;
+    this.selectedAnswer = null;
+    this.isAnswerSubmitted = false;
+    this.updateHeaderSubjectBadge();
+    this.renderQuestionView();
+  }
+  /* Render view: Active Question Screen */
+  renderQuestionView() {
+    const questions = this.currentSubject.questions;
+    const currentQuestion = questions[this.currentQuestionIndex];
+    const totalQuestions = questions.length;
+    // A, B, C, D label mapper
+    const optionLabels = ['A', 'B', 'C', 'D'];
+    // Generate option list buttons
+    const optionsHTML = currentQuestion.options.map((option, idx) => {
+      const escapedOption = this.escapeHtml(option);
+      return `
+        <button class="card-item option-card" role="radio" aria-checked="false" data-option="${escapedOption}" type="button">
+          <span class="option-letter">${optionLabels[idx]}</span>
+          <span class="option-text">${escapedOption}</span>
+          ${SVGIcons.correct}
+          ${SVGIcons.incorrect}
+        </button>
+      `;
+    }).join('');
+    // Progress percentage calculation
+    const progressPercent = ((this.currentQuestionIndex + 1) / totalQuestions) * 100;
+    this.viewContainer.innerHTML = `
+      <div class="grid-layout">
+        <div class="question-progress-container">
+          <div>
+            <div class="question-counter">Question ${this.currentQuestionIndex + 1} of ${totalQuestions}</div>
+            <h2 class="question-text">${this.escapeHtml(currentQuestion.question)}</h2>
+          </div>
+          <div class="progress-bar-container" aria-label="Progress bar">
+            <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
+          </div>
+        </div>
+        <div class="list-column">
+          <div class="options-radio-group" role="radiogroup" aria-label="Multiple choice options">
+            ${optionsHTML}
+          </div>
+          
+          <button class="btn-primary" id="action-btn" type="button">Submit answer</button>
+          
+          <div class="error-message-container" id="error-msg" aria-live="assertive">
+            ${SVGIcons.error}
+            <span>Please select an answer</span>
+          </div>
+        </div>
+      </div>
+    `;
+    // Element binding inside view
+    const optionCards = this.viewContainer.querySelectorAll('.option-card');
+    const actionBtn = document.getElementById('action-btn');
+    const errorMsg = document.getElementById('error-msg');
+    // Attach click events on options
+    optionCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (this.isAnswerSubmitted) return;
+        // Reset previous option selection
+        optionCards.forEach(c => {
+          c.classList.remove('selected');
+          c.setAttribute('aria-checked', 'false');
+        });
+        // Set active selection
+        const targetCard = e.currentTarget;
+        targetCard.classList.add('selected');
+        targetCard.setAttribute('aria-checked', 'true');
+        this.selectedAnswer = targetCard.getAttribute('data-option');
+        // Hide warning error on new choice
+        errorMsg.classList.remove('visible');
+      });
+    });
+    // Action button submit event
+    actionBtn.addEventListener('click', () => {
+      this.handleActionClick(actionBtn, errorMsg, optionCards, currentQuestion);
+    });
+    // Setup Keyboard Navigation helpers for radiogroup accessibility
+    this.setupKeyboardNavigation(optionCards);
+  }
+  /* Keyboard accessibility for option selection (WAI-ARIA radiogroup standards) */
+  setupKeyboardNavigation(optionCards) {
+    optionCards.forEach((card, idx) => {
+      card.addEventListener('keydown', (e) => {
+        if (this.isAnswerSubmitted) return;
+        
+        let targetIdx = -1;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          targetIdx = (idx + 1) % optionCards.length;
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          targetIdx = (idx - 1 + optionCards.length) % optionCards.length;
+        }
+        if (targetIdx !== -1) {
+          optionCards[targetIdx].focus();
+          optionCards[targetIdx].click();
+        }
+      });
+    });
+  }
+  /* Submit / Next button action flow */
+  handleActionClick(actionBtn, errorMsg, optionCards, currentQuestion) {
+    if (!this.isAnswerSubmitted) {
+      // 1. Submit Mode validation check
+      if (!this.selectedAnswer) {
+        errorMsg.classList.add('visible');
+        return;
+      }
+      this.isAnswerSubmitted = true;
+      const isCorrect = (this.selectedAnswer === currentQuestion.answer);
+      if (isCorrect) {
+        this.score++;
+      }
+      // 2. Color code cards and append visual states
+      optionCards.forEach(card => {
+        card.classList.add('disabled');
+        const cardOptionVal = card.getAttribute('data-option');
+        if (cardOptionVal === currentQuestion.answer) {
+          // Highlight correct answer card
+          card.classList.add('correct');
+        } else if (cardOptionVal === this.selectedAnswer) {
+          // Highlight selected option if incorrect
+          card.classList.add('incorrect');
+        }
+      });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+new QuizApp();
