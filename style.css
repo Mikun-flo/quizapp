@@ -1,7 +1,7 @@
 :root {
   /* Common Brand Colors */
-  --color-purple: hsl(277, 91%, 56%);
-  --color-purple-hover: hsl(277, 91%, 65%);
+  --color-purple: hsl(207, 82%, 11%);
+  --color-purple-hover: hsl(205, 68%, 17%);
   --color-purple-light: hsl(277, 100%, 95%);
   --color-green: hsl(151, 40%, 52%);
   --color-green-light: hsl(151, 80%, 95%);
@@ -53,7 +53,7 @@ html[data-theme="light"] {
 }
 /* Dark Theme Variables */
 html[data-theme="dark"] {
-  --bg-color: hsl(216, 25%, 16%);
+  --bg-color: hsl(218, 95%, 7%); /* hsl(216, 25%, 16%); */
   --text-primary: hsl(0, 0%, 100%);
   --text-secondary: hsl(216, 15%, 75%);
   --card-bg: hsl(215, 27%, 26%);
@@ -596,7 +596,7 @@ html[data-theme="dark"] .card-item:hover .option-letter {
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
-/* Screen reader only accessibility) */
+/* Screen reader only  */
 .sr-only {
   position: absolute;
   width: 1px;
