@@ -664,7 +664,7 @@ class QuizApp {
     });
   }
 }
-// Start application after page content is loaded
+// Start app after page content is loaded
 document.addEventListener("DOMContentLoaded", () => {
   window.quizApp = new QuizApp();
 });

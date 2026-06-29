@@ -114,6 +114,7 @@ body {
 .bg-pattern {
   position: absolute;
   width: 975px;
+  max-width: 60vw;
   height: 843px;
   background-repeat: no-repeat;
   z-index: -1;
